@@ -9,25 +9,23 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Hello World")),
-        body: Center(
-          child: Container(
-            color: Colors.lightBlue,
-            width: 150,
-            height: 50,
-            child: Text("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et",
-              maxLines: 2,
-              overflow: TextOverflow.clip,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w700,
-                fontSize: 20
-              ),
-            ),
-          ),
-        ),
+        appBar: AppBar(title: Text("Learning Row and Column")),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Text1"),
+            Text("Text2"),
+            Text("Text3"),
+            Row(
+              children: <Widget>[
+                Text("Text4"),
+                Text("Text5"),
+                Text("Text6"),
+              ],
+            )
+          ],
+        )
       ),
     );
   }
