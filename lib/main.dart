@@ -18,38 +18,21 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: Text("Latihan ListView"),
+            title: Text("Latihan Text Style"),
           ),
-          body: ListView(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  RaisedButton(
-                    onPressed: (){
-                      setState(() {
-                        widgets.add(Text("Data ke-" + counter.toString()));
-                        counter++;
-                      });
-                    },
-                    child: Text("Tambah Data"),
-                  ),
-                  RaisedButton(
-                    onPressed: (){
-                      setState(() {
-                        widgets.removeLast();
-                        counter--;
-                      });
-                    },
-                    child: Text("Hapus Data"),
-                  ),
-                ],
+          body: Center(
+            child: Text(
+              "Ini adalah Text",
+              style: TextStyle(
+                fontFamily: "JetBrainsMono",
+                fontStyle: FontStyle.italic,
+                fontSize: 30,
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.red,
+                decorationThickness: 3,
+                decorationStyle: TextDecorationStyle.wavy
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: widgets,
-              )
-            ],
+            ),
           )),
     );
   }
