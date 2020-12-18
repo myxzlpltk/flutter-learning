@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,26 +16,42 @@ class _MyAppState extends State<MyApp> {
   int counter = 1;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Timer.periodic(new Duration(seconds: 1), (timer) {
+      setState(() {
+
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Random random = Random();
+
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: Text("Latihan Text Style"),
+            title: Text("Latihan Animated Container"),
           ),
           body: Center(
-            child: Text(
-              "Ini adalah Text",
-              style: TextStyle(
-                fontFamily: "JetBrainsMono",
-                fontStyle: FontStyle.italic,
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.red,
-                decorationThickness: 3,
-                decorationStyle: TextDecorationStyle.wavy
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+
+                });
+              },
+              child: AnimatedContainer(
+                color: Color.fromARGB(255, random.nextInt(256), random.nextInt(256), random.nextInt(256)),
+                duration: Duration(seconds: 1),
+                width: 50.0 + random.nextInt(101),
+                height: 50.0 + random.nextInt(101),
               ),
             ),
-          )),
+          )
+      ),
     );
   }
 }
