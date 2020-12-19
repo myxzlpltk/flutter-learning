@@ -4,36 +4,38 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  TextEditingController controller = TextEditingController(text: "Nilai Awal");
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.green,
-        body: Container(
-          margin: EdgeInsets.all(10),
-          child: ListView(
-            children: [
-              buildCard(Icons.account_box, "Account Box"),
-              buildCard(Icons.adb, "ADB Android"),
-            ],
-          ),
+        appBar: AppBar(
+          title: Text("Learning Text Field"),
         ),
-      ),
-    );
-  }
-
-  Card buildCard(IconData iconData, String text) {
-    return Card(
-      elevation: 5,
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.all(5),
-            child: Icon(iconData, color: Colors.green,),
-          ),
-          Text(text)
-        ],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              margin: EdgeInsets.all(20),
+              child: TextField(
+                obscureText: true,
+                maxLength: 10,
+                onChanged: (value) {
+                  setState(() {});
+                },
+                controller: controller,
+              ),
+            ),
+            Text(controller.text)
+          ],
+        ),
       ),
     );
   }
