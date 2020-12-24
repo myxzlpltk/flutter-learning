@@ -9,39 +9,46 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TabBar myTabBar = TabBar(
+      indicator: BoxDecoration(
+        color: Colors.orange,
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.red,
+            width: 2,
+          ),
+        ),
+      ),
+      tabs: [
+        Tab(
+          icon: Icon(Icons.home),
+          text: "Home",
+        ),
+        Tab(
+          icon: Icon(Icons.explore),
+          text: "Discover",
+        ),
+      ],
+    );
+
     return MaterialApp(
       home: DefaultTabController(
-        length: 4,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: Text("Learning Tab Bar"),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.home),
-                  text: "Home",
-                ),
-                Tab(
-                  icon: Icon(Icons.explore),
-                  text: "Discover",
-                ),
-                Tab(
-                  icon: Icon(Icons.notifications),
-                  text: "Notifications",
-                ),
-                Tab(
-                  icon: Icon(Icons.person),
-                  text: "Profil",
-                ),
-              ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(myTabBar.preferredSize.height),
+              child: Container(
+                color: Colors.yellow,
+                child: myTabBar,
+              ),
             ),
           ),
           body: TabBarView(
             children: [
               Center(child: Text("Tab 1")),
               Center(child: Text("Tab 2")),
-              Center(child: Text("Tab 3")),
-              Center(child: Text("Tab 4")),
             ],
           ),
         ),
