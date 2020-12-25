@@ -1,36 +1,88 @@
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  static AudioCache cache = AudioCache();
+  AudioPlayer audioPlayer;
+  String durasi = "00:00:00";
+
+  void playSound() async{
+    if(audioPlayer != null){
+      stopSound();
+    }
+
+    audioPlayer = await cache.play("chun-li.mp3");
+    audioPlayer.onAudioPositionChanged.listen((duration) {
+      setState(() {
+        durasi = duration.toString();
+      });
+    });
+    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+  }
+
+  void pauseSound() async{
+    await audioPlayer.pause();
+  }
+
+  void resumeSound() async{
+    await audioPlayer.resume();
+  }
+
+  void stopSound() async{
+    await audioPlayer.stop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Gradient Opacity")),
+        appBar: AppBar(title: Text("Play Music")),
         body: Center(
-          child: ShaderMask(
-            shaderCallback: (rectangle){
-              return LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black,
-                  Colors.transparent
-                ],
-              ).createShader(Rect.fromLTRB(0, 0, rectangle.width, rectangle.height));
-            },
-            blendMode: BlendMode.dstIn,
-            child: Image(
-              width: 200,
-              image: AssetImage("assets/juan.jpg"),
-            ),
-          )
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              RaisedButton(
+                onPressed: () {
+                  playSound();
+                },
+                child: Text("Play"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  pauseSound();
+                },
+                child: Text("Pause"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  stopSound();
+                },
+                child: Text("Stop"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  resumeSound();
+                },
+                child: Text("Resume"),
+              ),
+              Text(
+                durasi,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
