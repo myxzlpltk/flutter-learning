@@ -10,48 +10,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Flutter Typography")),
+        appBar: AppBar(title: Text("Custom Clipper")),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                "Contoh 01",
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              Text(
-                "Contoh 01",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFeatures: [
-                      FontFeature.enable('smcp')
-                    ]
-                ),
-              ),
-              Text(
-                "Contoh 01 1/2",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFeatures: [
-                      FontFeature.enable('frac')
-                    ]
-                ),
-              ),
-              Text(
-                "Contoh 01 1/2",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFeatures: [
-                      FontFeature.oldstyleFigures()
-                    ]
-                ),
-              ),
-            ],
+          child: ClipPath(
+            clipper: MyClipper(),
+            child: Image(
+              width: 250,
+              image: AssetImage("assets/juan.jpg"),
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+class MyClipper extends CustomClipper<Path>{
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    
+    path.lineTo(0, size.height);
+    path.quadraticBezierTo(size.width / 2, size.height * 0.75, size.width, size.height);
+    path.lineTo(size.width, 0);
+    path.quadraticBezierTo(size.width / 2, size.height * 0.25, 0, 0);
+    path.close();
+    
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
