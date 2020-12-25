@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter/colorful_button.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,19 +9,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Colorful Button")),
+        appBar: AppBar(title: Text("Gradient Opacity")),
         body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ColorfulButton(Colors.pink, Colors.red, Icons.home),
-              ColorfulButton(Colors.lightBlue, Colors.blue, Icons.explore),
-              ColorfulButton(Colors.yellow, Colors.orange, Icons.notifications),
-              ColorfulButton(Colors.greenAccent, Colors.green, Icons.person),
-            ],
-          ),
+          child: ShaderMask(
+            shaderCallback: (rectangle){
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black,
+                  Colors.transparent
+                ],
+              ).createShader(Rect.fromLTRB(0, 0, rectangle.width, rectangle.height));
+            },
+            blendMode: BlendMode.dstIn,
+            child: Image(
+              width: 200,
+              image: AssetImage("assets/juan.jpg"),
+            ),
+          )
         ),
       ),
     );
   }
 }
+
