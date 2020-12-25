@@ -12,6 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String output = "no data";
   PostResult postResult = null;
   User user = null;
 
@@ -24,12 +25,15 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text((user != null) ? user.id + " | " + user.name : "Tidak ada data"),
+              Text(output, textAlign: TextAlign.center),
               RaisedButton(
                 onPressed: () {
-                  User.connectToAPI("3").then((value){
+                  User.getUsers("2").then((users) {
                     setState(() {
-                      user = value;
+                      output = "";
+                      for (int i = 0; i < users.length; i++) {
+                        output = output + " [ " + users[i].name + " ] ";
+                      }
                     });
                   });
                 },

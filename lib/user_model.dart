@@ -1,27 +1,30 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class User{
+class User {
   String id;
   String name;
 
   User({this.id, this.name});
 
-  factory User.createUser(Map<String, dynamic> object){
+  factory User.createUser(Map<String, dynamic> object) {
     return User(
-      id: object['id'].toString(),
-      name: object['first_name'] + " " + object['last_name']
-    );
+        id: object['id'].toString(),
+        name: object['first_name'] + " " + object['last_name']);
   }
 
-  static Future<User> connectToAPI(String id) async {
-    String apiURL = "https://reqres.in/api/users/" + id;
+  static Future<List<User>> getUsers(String page) async {
+    String apiURL = "https://reqres.in/api/users?page=" + page;
 
     var response = await http.get(apiURL);
     var JSON = json.decode(response.body);
-    var userData = (JSON as Map<String, dynamic>)['data'];
+    List<dynamic> data = (JSON as Map<String, dynamic>)['data'];
 
-    return User.createUser(userData);
+    List<User> users = [];
+    for (int i = 0; i < data.length; i++) {
+      users.add(User.createUser(data[i]));
+    }
+
+    return users;
   }
 }
