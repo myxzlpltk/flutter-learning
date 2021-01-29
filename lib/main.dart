@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:learn_flutter/product_card.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -11,35 +10,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: Text("Custom Progress Bar")),
-        body: Center(
-          child: ChangeNotifierProvider<TimeState>(
-            create: (context) => TimeState(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Consumer<TimeState>(
-                  builder: (context, timeState, _) => CustomProgressBar(
-                    width: 200,
-                    value: timeState.time,
-                  ),
+        appBar: AppBar(backgroundColor: firstColor),
+        body: ChangeNotifierProvider<ProductState>(
+          create: (context, ) => ProductState(),
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Consumer<ProductState>(
+                builder: (context, productState, _) => ProductCard(
+                  name: "Juan",
+                  price: "Rp. 25.000",
+                  quantity: productState.quantity,
+                  notification: (productState.quantity > 5) ? "Diskon 10%" : null,
+                  onAddCartTap: (){
+
+                  },
+                  onIncrementTap: (){
+                    productState.quantity += 1;
+                  },
+                  onDecrementTap: (){
+                    productState.quantity -= 1;
+                  },
                 ),
-                SizedBox(height: 10),
-                Consumer<TimeState>(
-                  builder: (context, timeState, _) => RaisedButton(
-                    color: Colors.lightBlue,
-                    child: Text("Start", style: TextStyle(color: Colors.white)),
-                    onPressed: (){
-                      Timer.periodic(Duration(seconds: 1), (timer) {
-                        if(timeState.time == 0) timer.cancel();
-                        else timeState.time -= 1;
-                      });
-                    },
-                  ),
-                )
-              ],
+              ),
             ),
           ),
         ),
@@ -48,58 +44,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class CustomProgressBar extends StatelessWidget {
-  final double width;
-  final int value;
-  final int totalValue = 15;
+class ProductState with ChangeNotifier{
+  int _quantity = 0;
 
-  const CustomProgressBar({Key key, this.width, this.value})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double ratio = value / totalValue;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.timer, color: Colors.grey[700]),
-        SizedBox(width: 5),
-        Stack(
-          children: [
-            Container(
-              width: width,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-            Material(
-              borderRadius: BorderRadius.circular(5),
-              elevation: 3,
-              child: AnimatedContainer(
-                width: ratio * width,
-                height: 10,
-                duration: Duration(milliseconds: 500),
-                decoration: BoxDecoration(
-                  color: (ratio < 0.3) ? Colors.red : (ratio < 0.6) ? Colors.orange : Colors.green ,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            )
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class TimeState with ChangeNotifier{
-  int _time = 15;
-
-  int get time => _time;
-  set time(int value){
-    _time = value;
+  int get quantity => _quantity;
+  set quantity(value){
+    _quantity = value;
     notifyListeners();
   }
 }
